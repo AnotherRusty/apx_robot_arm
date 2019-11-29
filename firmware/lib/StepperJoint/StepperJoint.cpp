@@ -1,16 +1,15 @@
-
 #include "StepperJoint.h"
 #include "Debugger.h"
 #include "Config.h"
 
 #define MOVE_INTERVAL   10000 
-#define CW      true    //顺时针
-#define CCW     false   //逆时针
+#define CW      true
+#define CCW     false
 
-#define NORMAL_POSITION 0   //初始化角度
-#define STEP_ANGLE 1.8  //步进角度
-#define SUBDIVISION 1   //细分
-#define PULSE_WIDTH 50  //ms
+#define NORMAL_POSITION 0
+#define STEP_ANGLE 1.8
+#define SUBDIVISION 1
+#define PULSE_WIDTH 50
 
 StepperJoint::StepperJoint(uint8_t enable_pin, uint8_t dir_pin, uint8_t step_pin, uint8_t lock_pin){
     _enable_pin = enable_pin;
@@ -21,13 +20,12 @@ StepperJoint::StepperJoint(uint8_t enable_pin, uint8_t dir_pin, uint8_t step_pin
 
 void StepperJoint::init()
 {
-    //将步进电机用到的IO管脚设置成输出
     pinMode(_enable_pin, OUTPUT); 
     pinMode(_dir_pin, OUTPUT);    
     pinMode(_step_pin, OUTPUT);    
     pinMode(_lock_pin, INPUT);    
 
-    digitalWrite(_enable_pin, LOW); //使能
+    digitalWrite(_enable_pin, LOW);
 
     _angle = NORMAL_POSITION;
 
@@ -61,7 +59,6 @@ unsigned short StepperJoint::get_position(){
 
 void StepperJoint::_step(bool direction)
 {   
-    // 转动一步
     digitalWrite(_dir_pin, direction);    
     digitalWrite(_step_pin, HIGH);
     delayMicroseconds(PULSE_WIDTH);

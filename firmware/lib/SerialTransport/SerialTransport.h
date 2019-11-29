@@ -1,9 +1,3 @@
-/* OPENARM Firmware *****************
-    -Arm model: Victor
-    -Version 1.0
-
-    Danny @ openarm 2019
-************************************/
 #ifndef SERIAL_TRANSPORT_H_
 #define SERIAL_TRANSPORT_H_
 
@@ -12,9 +6,6 @@
 #include "Config.h"
 
 
-/* SerialTransport类
-继承了ITransport接口，负责串口数据的收发
-*/
 class SerialTransport : public ITransport
 {
 public:

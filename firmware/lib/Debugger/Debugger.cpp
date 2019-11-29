@@ -1,22 +1,16 @@
-/* OPENARM Firmware *****************
-    -Arm model: Victor
-    -Version 1.0
-
-    Danny @ openarm 2019
-************************************/
 #include "Debugger.h"
 #include "Config.h"
 
 
 Debugger::Debugger(){
-#if DEBUG_ENABLE    // UNO不支持串口调试 DEBUG_ENABLE=0
-    DEBUG_SERIAL.begin(DEBUG_BAUDRATE); // 初始化debug串口
+#if DEBUG_ENABLE
+    DEBUG_SERIAL.begin(DEBUG_BAUDRATE);
 #endif
 }
 
 int Debugger::printf(char *fmt, ...){
     int n = 0;
-#if DEBUG_ON    // DEBUG开关宏
+#if DEBUG_ON
     va_list args;
     va_start(args, fmt);
     n = vsprintf(sprint_buf, fmt, args);

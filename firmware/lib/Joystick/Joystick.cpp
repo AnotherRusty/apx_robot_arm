@@ -1,9 +1,3 @@
-/* OPENARM Firmware *****************
-    -Arm model: Victor
-    -Version 1.0
-
-    Danny @ openarm 2019
-************************************/
 #include "Joystick.h"
 #include <stdio.h>
 #include "RobotData.h"

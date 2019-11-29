@@ -1,13 +1,7 @@
-/* OPENARM Firmware *****************
-    -Arm model: Victor （or Neo)
-    -Version 1.0
-
-    Danny @ openarm 2019
-************************************/
 #pragma once
 
-/**** MODIFY WITH CAUTION （不要随意修改！！！）: 
- * May cause problems. ****/
+/** MODIFY WITH CAUTION （不要随意修改！！！）: 
+ * May cause problems. */
 
 # include <Arduino.h>
 
@@ -25,15 +19,12 @@ typedef unsigned long long int uint64_t;    //64-bit有符号类型（可能无�
 
 //   ---------------------------------------    
 #ifdef ARDUINO_AVR_UNO
-/* UNO只有一个串口用作通讯口，因此不支持串口调试。*/
 #define DEBUG_ENABLE   0
 #elif ARDUINO_AVR_MEGA2560
-/* mega2560有4个串口，用serial3作为调试口，波特率设为9600 */
 #define DEBUG_ENABLE   1
 #define DEBUG_SERIAL    Serial3
 #define DEBUG_BAUDRATE  9600
 #endif
 
-/* 通讯口默认为COM0 “Serial” */
 #define MAIN_SERIAL     Serial  
 

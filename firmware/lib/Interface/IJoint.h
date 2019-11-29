@@ -1,9 +1,3 @@
-/* OPENARM Firmware *****************
-    -Arm model: Victor
-    -Version 1.0
-
-    Danny @ openarm 2019
-************************************/
 #ifndef I_JOINT_H_
 #define I_JOINT_H_
 
