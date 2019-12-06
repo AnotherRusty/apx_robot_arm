@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include "IJoint.h"
 #include "Servo.h"
+#include "Config.h"
 
 class ServoJoint: public IJoint
 {

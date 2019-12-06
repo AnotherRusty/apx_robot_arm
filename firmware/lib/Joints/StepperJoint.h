@@ -1,10 +1,10 @@
-
 #ifndef STEPPER_JOINT_H_
 #define STEPPER_JOINT_H_
 
 
 #include <Arduino.h>
 #include "IJoint.h"
+#include "Config.h"
 
 
 class StepperJoint: public IJoint
