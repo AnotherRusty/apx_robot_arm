@@ -7,16 +7,21 @@
 #include "StepperJoint.h"
 #include "Robot.h"
 #include "ServoEndEffector.h"
-#include "VacuumEndEffector.h"
+#include "SuctionEndEffector.h"
 
 SerialTransport trans(MAIN_SERIAL, BAUDRATE);
 Gateway gateway(&trans);
 Robot robot;
 
-StepperJoint joint0 = StepperJoint(JOINT0_ENA_PIN, JOINT0_DIR_PIN, JOINT0_STP_PIN, JOINT0_LOCK_PIN);
-StepperJoint joint1 = StepperJoint(JOINT1_ENA_PIN, JOINT1_DIR_PIN, JOINT1_STP_PIN, JOINT1_LOCK_PIN);
-StepperJoint joint2 = StepperJoint(JOINT2_ENA_PIN, JOINT2_DIR_PIN, JOINT2_STP_PIN, JOINT2_LOCK_PIN);
+StepperJoint joint0 = StepperJoint(JOINT0_ENA_PIN, JOINT0_DIR_PIN, JOINT0_STP_PIN, JOINT0_LOCK_PIN, 180);
+StepperJoint joint1 = StepperJoint(JOINT1_ENA_PIN, JOINT1_DIR_PIN, JOINT1_STP_PIN, JOINT1_LOCK_PIN, 180);
+StepperJoint joint2 = StepperJoint(JOINT2_ENA_PIN, JOINT2_DIR_PIN, JOINT2_STP_PIN, JOINT2_LOCK_PIN, 180);
 
+#if END_EFFECTOR_TYPE == SERVO
+ServoEndEffector effector = ServoEndEffector(SERVO_PIN, 180);
+#elif END_EFFECTOR_TYPE == SUNCTION
+SuctionEndEffector effector = SuctionEndEffector(RELAY_PIN);
+#endif
 
 void setup() {
     gateway.init();
@@ -24,6 +29,8 @@ void setup() {
     robot.add_joint(0, &joint0);
     robot.add_joint(1, &joint1);
     robot.add_joint(2, &joint2);
+
+    robot.add_end_effector(&effector);
 
     robot.init();
 }

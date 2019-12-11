@@ -2,9 +2,8 @@
 #define SERVO_END_EFFECTOR_H_
 
 #include "IEndEffector.h"
-#include "Config.h"
 #include "ServoJoint.h"
-
+#include "Config.h"
 
 class ServoEndEffector : public IEndEffector
 {
@@ -16,8 +15,8 @@ public:
     void release();
 
 private:
-    ServoJoint* _servo_joint;
-
+    ServoJoint _servo_joint;
+    unsigned short _current_angle;
 };
 
 #endif

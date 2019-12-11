@@ -1,15 +1,15 @@
-#ifndef VACUUM_END_EFFECTOR_H_
-#define VACUUM_END_EFFECTOR_H_
+#ifndef SUCTION_END_EFFECTOR_H_
+#define SUCTION_END_EFFECTOR_H_
 
 #include "IEndEffector.h"
 #include "Config.h"
 
 
-class VacuumEndEffector : public IEndEffector
+class SuctionEndEffector : public IEndEffector
 {
 public:
-    VacuumEndEffector(uint8_t relay_pin);
-    VacuumEndEffector(uint8_t motor_pin, uint8_t relay_pin);
+    SuctionEndEffector(uint8_t relay_pin);
+    SuctionEndEffector(uint8_t motor_pin, uint8_t relay_pin);
 
     void init();
     void grip();

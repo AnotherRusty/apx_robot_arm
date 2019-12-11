@@ -1,4 +1,4 @@
-#include "VacuumEndEffector.h"
+#include "SuctionEndEffector.h"
 #include <Arduino.h>
 
 #define MOTOR_ON    1
@@ -6,19 +6,19 @@
 #define RELAY_ON    1
 #define RELAY_OFF   0
 
-VacuumEndEffector::VacuumEndEffector(uint8_t relay_pin){
+SuctionEndEffector::SuctionEndEffector(uint8_t relay_pin){
     _has_motor_control = false;
     _motor_pin = NULL;
     _relay_pin = relay_pin;
 }
 
-VacuumEndEffector::VacuumEndEffector(uint8_t motor_pin, uint8_t relay_pin){
+SuctionEndEffector::SuctionEndEffector(uint8_t motor_pin, uint8_t relay_pin){
     _has_motor_control = true;
     _motor_pin = motor_pin;
     _relay_pin = relay_pin;
 }
 
-void VacuumEndEffector::init(){
+void SuctionEndEffector::init(){
     if(_has_motor_control){
         pinMode(_motor_pin, OUTPUT);
         digitalWrite(_motor_pin, MOTOR_OFF);
@@ -27,15 +27,15 @@ void VacuumEndEffector::init(){
     digitalWrite(_relay_pin, RELAY_OFF);
 }
 
-void VacuumEndEffector::activate(){
+void SuctionEndEffector::activate(){
     if(_has_motor_control)
         digitalWrite(_motor_pin, MOTOR_ON);
 }
 
-void VacuumEndEffector::grip(){
+void SuctionEndEffector::grip(){
     digitalWrite(_relay_pin, RELAY_ON);
 }
 
-void VacuumEndEffector::release(){
+void SuctionEndEffector::release(){
     digitalWrite(_relay_pin, RELAY_OFF);
 }
