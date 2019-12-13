@@ -32,12 +32,22 @@ bool Robot::init(){
 
 void Robot::run(){
     RobotData* rd = RobotData::get();
+    // move joints
     for(int i=0; i<NUM_JOINTS; i++){
         if(rd->current_joint_angles[i]!=rd->target_joint_angles[i]){
             _joints[i]->move(rd->target_joint_angles[i]);
             rd->current_joint_angles[i] = _joints[i]->get_position();
         }
     }
+    
+    // move end effector
+    if(rd->end_effector_state==GRIP){
+        _end_effector->grip();
+    }
+    else if(rd->end_effector_state==RELEASE){
+        _end_effector->release();
+    }
+    rd->end_effector_state = IDLE;  // reset to idle
 }
 
 void Robot::add_joint(uint8_t id, IJoint* j){

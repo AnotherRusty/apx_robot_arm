@@ -116,6 +116,12 @@ void Gateway::_ressolve_message(uint8_t msg_id){
         _trans->write(buf, len);
     }
         break;
+    case SET_END_EFFECTOR_STATE:
+    {
+        RobotData* rd = RobotData::get();
+        rd->end_effector_state = _temp_data[0];
+    }
+        break;
     default:
         break;
     }

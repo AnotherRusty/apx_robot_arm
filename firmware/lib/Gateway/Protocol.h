@@ -14,11 +14,13 @@ enum ParseState{
     CHECKSUM =4,
 };
 
-enum CommandId{
+enum MessageId{
     DUMMY = 0,
     SET_JOINT_POSITIONS,
     GET_JOINT_POSITIONS,
+    SET_END_EFFECTOR_STATE,
 
+    // response
     MOVE_DONE = 100,
     RET_JOINT_POSITIONS,
 };
