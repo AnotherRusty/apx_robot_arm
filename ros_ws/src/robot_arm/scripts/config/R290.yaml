@@ -1,0 +1,23 @@
+Joints:
+  - Joint1:
+    name: "joint1"
+    type: "stepper"
+    params:
+      min_angle: 0
+      max_angle: 180
+      norm: 0
+  - Joint2:
+    name: "joint2"
+    type: "stepper"
+    params:
+      min_angle: 0
+      max_angle: 180
+      norm: 0
+  - Joint3:
+    name: "joint3"
+    type: "stepper"
+    params:
+      min_angle: 0
+      max_angle: 180
+      norm: 0
+                

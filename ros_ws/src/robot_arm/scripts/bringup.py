@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
 import rospy
-from opmlib.robot import Robot
+from lib.robot import Robot
 from time import sleep, time
 from sensor_msgs.msg import JointState
 from math import pi
 
-
 NAME = 'r290'
-PORT = '/dev/robot_arm'
+PORT = '/dev/ttyUSB0'
 BAUDRATE = 9600
 
 NOMINAL_POSITION = 90

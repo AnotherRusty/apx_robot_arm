@@ -21,7 +21,7 @@ public:
 
 private:
     void _step(bool direction);
-    bool _reset(uint16_t timeout=5000); //ms
+    void _reset(uint32_t timeout=5000); //ms
 
     uint8_t _enable_pin, _dir_pin, _step_pin, _lock_pin;
     unsigned short _angle;

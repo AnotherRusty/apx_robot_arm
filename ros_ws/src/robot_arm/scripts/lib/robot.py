@@ -5,8 +5,6 @@ from config import*
 from messages import*
 from time import time as now, sleep
 import yaml
-import os
-
 
 class RobotStatus:
     def __init__(self, num_joints):
@@ -23,32 +21,40 @@ class Robot:
 
     def configure(self, name, port, baudrate):
         self.name = name
-        home_path = os.getenv('HOME')
-        config_file = home_path+'/openarm_ros/ws_moveit/src/bringups/victor5_bringup/scripts/config/'+self.name+'.yaml'
-        with open(config_file) as f:
-            conf = yaml.safe_load(f)
-            f.close()
-        self.__port = port
-        self.__baudrate = baudrate
-        self.__num_joints = len(conf['Joints'])
+
+        try:
+            config_file = 'config/'+self.name+'.yaml'
+            with open(config_file) as f:
+                conf = yaml.safe_load(f)
+                f.close()
+            self.__port = port
+            self.__baudrate = baudrate
+            self.__num_joints = len(conf['Joints'])
+        except:
+            print("error occurred during configuration. please check settings.")
+            return False
         self.__configured = True
+        return True
 
     def initialize(self):
         if not self.__configured:
-            raise RuntimeError('robot has not been configured.')
+            print('robot has not been configured.')
+            return False
         try:
             self.__transport = Transport(self.__port, self.__baudrate)
         except:
-            print("serial initialization failed")
-            raise RuntimeError("Robot init failed. Check configuration.")
+            print("serial initialization failed. \n Check serial settings.")
+            return False
         self.__proc = threading.Thread(name='robot process', target=self.__run)
         self.__proc.setDaemon(True)
         self.robot_status = RobotStatus(self.__num_joints)
         self.__initialized = True
+        return True
 
     def start(self):
         if not self.__initialized:
-            raise RuntimeError('robot has not been initialized.')
+            print("Error: Robot has not been initialized.")
+            return
         self.__proc.start()
 
     def shutdown(self):

@@ -77,10 +77,5 @@ IEndEffector* Robot::get_end_effector(){
 
 void Robot::_reset(){
     Debugger::get()->printf("Reset robot ... ");
-    RobotData* rd = RobotData::get();
-    for(int i=0; i<NUM_JOINTS; i++){
-        rd->target_joint_angles[i] = 90;
-    }
-
     // todo
 }

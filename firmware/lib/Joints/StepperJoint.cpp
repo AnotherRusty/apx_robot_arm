@@ -2,13 +2,13 @@
 #include "Debugger.h"
 #include "Config.h"
 
-#define STEP_INTERVAL   10000 
+#define STEP_INTERVAL   5000 
 #define CW      true
 #define CCW     false
 
 #define STEP_ANGLE 1.8
-#define SUBDIVISION 1
-#define PULSE_WIDTH 200
+#define SUBDIVISION 8
+#define PULSE_WIDTH 10
 
 StepperJoint::StepperJoint(uint8_t enable_pin, uint8_t dir_pin, uint8_t step_pin, uint8_t lock_pin, unsigned short max_angle){
     _enable_pin = enable_pin;
@@ -29,31 +29,33 @@ void StepperJoint::init()
 
     digitalWrite(_enable_pin, LOW);
 
-    if(!_reset())
-        return;
+    _reset();
     _t_last = 0;
 }
 
-void StepperJoint::move(unsigned short angle){
-    if(!digitalRead(_lock_pin))
-        return;
-
-    unsigned short target;
-    if(!_reverse_flag)
-        target = angle;
-    else
-        target = _max_angle - angle;
-
+void StepperJoint::move(unsigned short angle)
+{
+    unsigned short target = min(max(0, angle), _max_angle);
     uint16_t nstep = (float)target / STEP_ANGLE * (float)SUBDIVISION;
+
     if((micros()-_t_last)>STEP_INTERVAL){
         if(nstep == _nstep)
+        {
+            _t_last = micros();
             return;
+        }
         if(nstep > _nstep){
-            _step(CW);
+            if(!_reverse_flag)
+                _step(CW);
+            else
+                _step(CCW);
             _nstep++;
         }
-        if(nstep < _nstep){
-            _step(CCW);
+        else if(nstep < _nstep){
+            if(!_reverse_flag)
+                _step(CCW);
+            else
+                _step(CW);
             _nstep--;
         }
 
@@ -62,11 +64,8 @@ void StepperJoint::move(unsigned short angle){
 }
 
 unsigned short StepperJoint::get_position(){
-    if(!_reverse_flag)
-        _angle = _nstep / (float)SUBDIVISION * STEP_ANGLE; 
-    else
-        _angle = _max_angle - _nstep / (float)SUBDIVISION * STEP_ANGLE; 
-    return _angle;
+    _angle = _nstep / (float)SUBDIVISION * STEP_ANGLE; 
+    return min(max(0, _angle), _max_angle);
 }
 
 void StepperJoint::set_reverse(bool reverse){
@@ -82,16 +81,22 @@ void StepperJoint::_step(bool direction)
     delayMicroseconds(PULSE_WIDTH);    
 }   
 
-bool StepperJoint::_reset(uint16_t timeout){
-    uint16_t t = millis();
+void StepperJoint::_reset(uint32_t timeout){
+    uint32_t t = millis();
     while((millis()-t)<timeout){
         if(digitalRead(_lock_pin)) // active LOW
+        {
             if(!_reverse_flag)
                 _step(CCW);
             else
                 _step(CW);
-            delayMicroseconds(STEP_INTERVAL);
+            delayMicroseconds(2000);
+        }
+        else    // reach limit
+        {
+            _nstep = 0;
+            _angle = 0;
+            return;
+        }
     }
-    _nstep = 0;
-    _angle = 0;
 }
