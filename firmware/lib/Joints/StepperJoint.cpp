@@ -8,7 +8,7 @@
 
 #define STEP_ANGLE 1.8
 #define SUBDIVISION 1
-#define PULSE_WIDTH 50
+#define PULSE_WIDTH 200
 
 StepperJoint::StepperJoint(uint8_t enable_pin, uint8_t dir_pin, uint8_t step_pin, uint8_t lock_pin, unsigned short max_angle){
     _enable_pin = enable_pin;

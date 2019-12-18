@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="robot_arm" name="keyboard_control" type="keyboard_control.py" output="screen"></node>
+</launch>
