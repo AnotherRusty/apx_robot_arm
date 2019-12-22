@@ -1,3 +1,0 @@
-<launch>
-    <node pkg="robot_arm" name="arm_bringup" type="bringup.py" output="screen"></node>
-</launch>

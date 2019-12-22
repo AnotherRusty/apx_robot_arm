@@ -37,3 +37,16 @@ class JointPos(Message):
 
     def __key(self):
         return '<'+str(self.__n)+'H'
+
+
+class EndEffectorState(Message):
+    def __init__(self):
+        self.state = 0
+    
+    def pack(self):
+        p = struct.pack('<B', self.state)
+        return p
+
+    def unpack(self, data):
+        up = struct.unpack('<B', data)
+        return up

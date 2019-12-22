@@ -3,7 +3,7 @@
 #include "Config.h"
 
 
-#define INTERVAL 20000
+#define INTERVAL 10000
 
 ServoJoint::ServoJoint(uint8_t pin, unsigned short max_angle){
     _pin = pin;
@@ -22,23 +22,23 @@ void ServoJoint::init(){
 
 void ServoJoint::move(unsigned short angle){
     Debugger::get()->printf("Move sevo on pin%d to angle: %d", _pin, angle);
-
+    
     unsigned short target;
     if(!_reverse_flag)
-        target = angle;
+        target = min(max(0, angle), _max_angle);
     else
-        target = (_max_angle - angle);
+        target = min(max(0, _max_angle-angle), _max_angle);
 
     if((micros()-_t_last)>_move_interval){
-        if(min(max(0, target), _max_angle)==_angle)
+        if(target ==_angle)
             return;
-        if(min(max(0, target), _max_angle)>_angle)
+        if(target >_angle)
         {
-            _servo.write(++target);
+            _servo.write(++_angle);
         }
-        else if (min(max(0, target), _max_angle)<_angle)
+        else if (target <_angle)
         {
-            _servo.write(--target);
+            _servo.write(--_angle);
         }
         _t_last = micros();
     }

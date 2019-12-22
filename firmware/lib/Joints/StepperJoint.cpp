@@ -2,7 +2,7 @@
 #include "Debugger.h"
 #include "Config.h"
 
-#define STEP_INTERVAL   5000 
+#define STEP_INTERVAL   8000 
 #define CW      true
 #define CCW     false
 
@@ -36,22 +36,21 @@ void StepperJoint::init()
 void StepperJoint::move(unsigned short angle)
 {
     unsigned short target = min(max(0, angle), _max_angle);
-    uint16_t nstep = (float)target / STEP_ANGLE * (float)SUBDIVISION;
 
     if((micros()-_t_last)>STEP_INTERVAL){
-        if(nstep == _nstep)
+        if(_angle == target)
         {
             _t_last = micros();
             return;
         }
-        if(nstep > _nstep){
+        if(target > _angle){
             if(!_reverse_flag)
                 _step(CW);
             else
                 _step(CCW);
             _nstep++;
         }
-        else if(nstep < _nstep){
+        else if(target < _angle){
             if(!_reverse_flag)
                 _step(CCW);
             else
@@ -74,11 +73,11 @@ void StepperJoint::set_reverse(bool reverse){
 
 void StepperJoint::_step(bool direction)
 {   
-    digitalWrite(_dir_pin, direction);    
+    digitalWrite(_dir_pin, direction);
     digitalWrite(_step_pin, HIGH);
     delayMicroseconds(PULSE_WIDTH);
     digitalWrite(_step_pin, LOW);
-    delayMicroseconds(PULSE_WIDTH);    
+    delayMicroseconds(PULSE_WIDTH); 
 }   
 
 void StepperJoint::_reset(uint32_t timeout){

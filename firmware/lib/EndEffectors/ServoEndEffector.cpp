@@ -1,5 +1,6 @@
 #include "ServoEndEffector.h"
 
+#define STEP 1
 
 ServoEndEffector::ServoEndEffector(uint8_t pin, unsigned short max_angle){
     _servo_joint = ServoJoint(pin, max_angle);
@@ -11,11 +12,11 @@ void ServoEndEffector::init(){
 }
 
 void ServoEndEffector::grip(){
-    _servo_joint.move(_current_angle-1);
+    _servo_joint.move(_current_angle - STEP);
     _current_angle = _servo_joint.get_position();
 }
 
 void ServoEndEffector::release(){
-    _servo_joint.move(_current_angle+1);
+    _servo_joint.move(_current_angle + STEP);
     _current_angle = _servo_joint.get_position();
 }

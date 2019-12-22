@@ -11,13 +11,13 @@ Joints:
     type: "stepper"
     params:
       min_angle: 0
-      max_angle: 180
+      max_angle: 100
       norm: 0
   - Joint3:
     name: "joint3"
     type: "stepper"
     params:
       min_angle: 0
-      max_angle: 180
+      max_angle: 100
       norm: 0
                 
